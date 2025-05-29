@@ -59,6 +59,3 @@ def all_in_one_function():
             print("Database connection closed.")
 
 
-all_in_one_function()
-
-
