@@ -5,7 +5,7 @@ import csv
 def all_in_one_function():
 
     # fetch credentials from file
-    file_path = 'C:/Users/user/Documents/yourCredentials/credentials.txt'
+    file_path = 'C:/Users/gqa/Box/AFHS Analysis Working Folder/Virtual Clinic Metrics/Python/Credentials.txt'
 
     with open(file_path, 'r') as file:
             lines = file.readlines()
