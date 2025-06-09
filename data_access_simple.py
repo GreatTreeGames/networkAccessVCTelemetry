@@ -2,7 +2,7 @@ import pymysql
 from pymysql.cursors import DictCursor
 import csv
 
-def connect(db_config, sql_query, retrieve_behavior, processing_behavior):
+def connect(db_config, sql_query):
     try:
         # Establish connection to the remote database
         connection = pymysql.connect(**db_config)
@@ -56,3 +56,14 @@ def print_rows_and_write_to_csv(results):
                     for row in results:
                         writer.writerow(row)
                         print(row)
+
+def fetch_table_names(connection, sql_query):
+       with connection.cursor() as cursor:
+                cursor.execute(sql_query)
+                rows = cursor.fetchall()
+                results = [ list(row.values())[0] for row in rows ]
+                print("Query executed successfully.")
+                return results
+       
+
+connect(create_db_request_from_credentials("C:/Users/user/Documents/yourCredentials/credentials.txt"), "SELECT * FROM tutorialStarted")
