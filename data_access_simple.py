@@ -69,8 +69,8 @@ def fetch_table_names(connection, sql_query):
                 return results
 
 
-def dump_all_tables():
-    db_request = create_db_request_from_credentials("C:/Users/user/Documents/yourCredentials/credentials.txt")
+def dump_all_tables(credentials_path):
+    db_request = create_db_request_from_credentials(credentials_path)
 
     table_names = connect(db_request, "SHOW TABLES", fetch_table_names)
     print(table_names)
@@ -78,4 +78,5 @@ def dump_all_tables():
         connect(db_request, "SELECT * FROM " + table_name +";", lambda a, b : retrieve_all_rows_and_write_to_csv(a, b, table_name))
 
 
-dump_all_tables()
+#dump_all_tables("C:/Users/user/Documents/yourCredentials/credentials.txt")
+dump_all_tables('C:/Users/gqa/Box/AFHS Analysis Working Folder/Virtual Clinic Metrics/Python/Credentials.txt')
