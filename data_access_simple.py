@@ -1,7 +1,6 @@
 import pymysql
 from pymysql.cursors import DictCursor
 import csv
-from sql_metadata import Parser
 
 def connect(db_config, sql_query, connected_behavior):
     try:
@@ -42,18 +41,16 @@ def create_db_request_from_credentials(file_path):
     }
     return db_config
 
-def retrieve_all_rows_and_write_to_csv(connection, sql_query):
+def retrieve_all_rows_and_write_to_csv(connection, sql_query, output_name="output"):
     with connection.cursor() as cursor:
                 cursor.execute(sql_query)
                 results = cursor.fetchall()
                 print("Query executed successfully.")
 
-                p = Parser(sql_query)
+                
 
-                with open( p.tables[0]+'.csv', mode='w', newline= '', encoding='utf-8') as csvfile:
+                with open( output_name+'.csv', mode='w', newline= '', encoding='utf-8') as csvfile:
                     fieldnames = {a[0] for a in cursor.description}
-                    print (fieldnames)
-                    print ("those should be the field names of " +p.tables[0])
                     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                     headerwriter = csv.writer(csvfile)
                     headerwriter.writerow(fieldnames)
@@ -78,7 +75,7 @@ def dump_all_tables():
     table_names = connect(db_request, "SHOW TABLES", fetch_table_names)
     print(table_names)
     for table_name in table_names:
-        connect(db_request, "SELECT * FROM " + table_name +";", retrieve_all_rows_and_write_to_csv)
+        connect(db_request, "SELECT * FROM " + table_name +";", lambda a, b : retrieve_all_rows_and_write_to_csv(a, b, table_name))
 
 
 dump_all_tables()
